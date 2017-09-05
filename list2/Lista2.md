@@ -23,7 +23,7 @@ java command [params]
 - Comparação entre os comandos wc, cat e head. Utilizando o comando **_time_** do shell.
 
 |  ######  |    WC     |    CAT    |    HEAD   |  
-|----------------------------------------------|
+|----------|-----------|-----------|-----------|
 | Terminal |  38s582   |  7m25s63  |   0s043   |
 | Java App |  1m19s72  |  9m14s85  |   0s166   |
 
@@ -43,7 +43,7 @@ As somas do arquivo encriptado estão armazenadas nos arquivos nomeados como: **
 Tamanho Original: 2.6 GB
 
 |  Tipos  |  Tempo  |  Tamanho  |
-|-------------------------------|
+|---------|---------|-----------|
 |  zip    |  1m50s  |   354Mb   |
 |  gzip   |  1m40s  |   354Mb   |
 |  bzip2  |  13m14s |   167Mb   |
