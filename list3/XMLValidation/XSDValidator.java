@@ -12,32 +12,46 @@ import org.xml.sax.SAXException;
 public class XSDValidator {
 
   public static void main(String [] args) {
-    if (args.length != 2){
-      System.out.println("Usage: XSDValidator <file-name.xsd> <file-name.xml>");
+    if (args.length <= 0 || args.length > 2){
+      System.out.println("Usage 1: XSDValidator <file-name.xml>");
+      System.out.println("Usage 2: XSDValidator <file-name.xsd> <file-name.xml>");
       return;
     }
-    boolean isValid = validateXMLSchema(args[0], args[1]);
 
-    if(isValid){
-      System.out.println(args[1] + " is valid!");
-    } else {
-      System.out.println(args[1] + " is not valid!");
-    }
+    boolean isValid = args.length == 2 ?
+                      validateXMLSchema(args[0], args[1]) :
+                      validateXML(args[0]);
+
+    if(isValid)
+      System.out.println("Is valid!");
+    else
+      System.out.println("Is not valid!");
+
   }
 
   public static boolean validateXMLSchema(String xsdPath, String xmlPath){
     try {
       SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-      Schema schema = factory.newSchema(
-                              new File(xsdPath));
+      Schema schema = factory.newSchema(new File(xsdPath));
       Validator validator = schema.newValidator();
-      validator.validate(
-                new StreamSource(
-                  new File(xmlPath)));
+      validator.validate(new StreamSource(new File(xmlPath)));
+      return true;
     } catch (IOException | SAXException e){
       System.out.println("Exception: " + e.getMessage());
       return false;
     }
-    return true;
+  }
+
+  public static boolean validateXML(String xmlPath){
+    try {
+      SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+      Schema schema = factory.newSchema();
+      Validator validator = schema.newValidator();
+      validator.validate(new StreamSource(new File(xmlPath)));
+      return true;
+    } catch (IOException | SAXException e){
+      System.out.println("Exception: " + e.getMessage());
+      return false;
+    }
   }
 }
