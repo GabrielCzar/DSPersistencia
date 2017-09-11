@@ -4,7 +4,7 @@
    <xs:element name = 'class'>
       <xs:complexType>
          <xs:sequence>
-             <xs:element name = 'student' type = 'StudentType' minOccurs = '0' 
+             <xs:element name = 'student' type = 'StudentType' minOccurs = '0'
                 maxOccurs = 'unbounded' />
          </xs:sequence>
       </xs:complexType>
@@ -18,5 +18,5 @@
          <xs:element name = "marks" type = "xs:positiveInteger"/>
       </xs:sequence>
       <xs:attribute name = 'rollno' type = 'xs:positiveInteger'/>
-   </xs:complexType>			 
+   </xs:complexType>
 </xs:schema>
