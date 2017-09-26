@@ -1,6 +1,6 @@
 *.zip
-target
+target/
 *.crc
 _SUCCESS
-.idea
+.idea/
 
