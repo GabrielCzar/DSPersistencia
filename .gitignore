@@ -1,4 +1,6 @@
 *.zip
-/target/*
-wc-output/
+target
+*.crc
+_SUCCESS
+.idea
 
