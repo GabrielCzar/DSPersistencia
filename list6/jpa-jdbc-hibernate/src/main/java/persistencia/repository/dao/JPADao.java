@@ -1,4 +1,4 @@
-package persistencia.dao;
+package persistencia.repository.dao;
 
 import persistencia.util.JpaUtil;
 

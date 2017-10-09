@@ -1,4 +1,4 @@
-package persistencia.dao;
+package persistencia.repository.dao;
 
 import java.util.List;
 
@@ -9,4 +9,8 @@ public interface IDao<T> {
     T get(Object id);
     List<T> all();
 
+    public void beginTransaction();
+    public void rollback();
+    public void commit();
+    public void close();
 }

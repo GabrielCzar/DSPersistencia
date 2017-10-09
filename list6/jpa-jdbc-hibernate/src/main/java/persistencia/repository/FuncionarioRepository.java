@@ -1,7 +1,7 @@
 package persistencia.repository;
 
-import persistencia.dao.JPADao;
 import persistencia.model.Funcionario;
+import persistencia.repository.dao.JPADao;
 
 public class FuncionarioRepository extends JPADao<Funcionario> {
 
