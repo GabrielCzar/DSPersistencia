@@ -1,17 +1,16 @@
-package persistencia.bootstrap;
+package persistencia.query;
 
 import persistencia.model.Dependente;
 import persistencia.model.Funcionario;
 import persistencia.repository.DependenteRepository;
 import persistencia.repository.FuncionarioRepository;
-import persistencia.util.JpaUtil;
 
-public class Bootstrap {
+public class QueryJPADao {
     private final Integer MAX = 10;
     private FuncionarioRepository funcionarioRepository;
     private DependenteRepository dependenteRepository;
 
-    public Bootstrap() {
+    public QueryJPADao() {
         this.funcionarioRepository = new FuncionarioRepository();
         this.dependenteRepository = new DependenteRepository();
     }
