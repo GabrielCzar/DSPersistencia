@@ -1,14 +1,11 @@
 package persistencia;
 
-import persistencia.bootstrap.Bootstrap;
+import static java.lang.System.exit;
 
 public class App {
     public static void main(String[] args) {
         // Execute actions
-        Bootstrap bootstrap = new Bootstrap();
-        bootstrap.executarRoolbackNaInsercao();
-        bootstrap.showFuncionarios();
 
-        return;
+        exit(0);
     }
 }

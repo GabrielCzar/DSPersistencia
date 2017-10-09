@@ -87,21 +87,27 @@ public class Bootstrap {
 
         try {
             funcionarioRepository.beginTransaction();
-            dependenteRepository.beginTransaction();
-            
+            dependenteRepository.beginTransaction(); ///to na duvida se precisa de dois
+
+            alli = funcionarioRepository.save(alli);
+            alves = funcionarioRepository.save(alves); // Insere no database
+            lima = dependenteRepository.save(lima);
+
             alves.getDependentes().add(lima);
             lima.setFuncionario(alves);
 
-            funcionarioRepository.save(alves); // Insere no database
-            dependenteRepository.save(lima);
-            funcionarioRepository.save(alli);
+            funcionarioRepository.update(alves);
+            dependenteRepository.update(lima);
 
             funcionarioRepository.commit();
             dependenteRepository.commit();
 
+            alli.setId(new Long(9999));
+            funcionarioRepository.beginTransaction();
             funcionarioRepository.save(alli); // Da erro porque ja existe cpf e matricula
             funcionarioRepository.commit();
         } catch (Exception e ) {
+            System.err.println("ERROR - ROLLBACK");
             funcionarioRepository.rollback();
             dependenteRepository.rollback();
             e.printStackTrace();

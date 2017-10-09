@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -16,7 +17,7 @@ public class Funcionario {
     private Long id;
     private String nome, email, telefone, cpf, matricula;
 
-    @OneToMany(mappedBy = "funcionario", cascade = ALL)
+    @OneToMany(mappedBy = "funcionario", cascade = ALL, fetch = LAZY)
     private List<Dependente> dependentes;
 
     public Funcionario() { }
