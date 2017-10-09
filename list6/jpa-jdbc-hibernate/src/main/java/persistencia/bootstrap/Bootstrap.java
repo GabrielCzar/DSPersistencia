@@ -4,6 +4,7 @@ import persistencia.model.Dependente;
 import persistencia.model.Funcionario;
 import persistencia.repository.DependenteRepository;
 import persistencia.repository.FuncionarioRepository;
+import persistencia.util.JpaUtil;
 
 public class Bootstrap {
     private final Integer MAX = 10;
@@ -24,11 +25,23 @@ public class Bootstrap {
             funcionarioRepository.beginTransaction();
             funcionarioRepository.save(gabriel); // sem dependente
             funcionarioRepository.commit();
+            System.out.println("INS FUNC");
+        } catch (Exception e) {
+            funcionarioRepository.rollback();
+            System.err.println("ROLLBACK FUNC");
+        }
 
+        try {
             dependenteRepository.beginTransaction();
             dependenteRepository.save(cesar); // sem funcionario
             dependenteRepository.commit();
+            System.out.println("INS DEP");
+        } catch (Exception e) {
+            dependenteRepository.rollback();
+            System.err.println("ROLLBACK DEP");
+        }
 
+        try {
             funcionarioRepository.beginTransaction();
             dependenteRepository.beginTransaction();
 
@@ -40,16 +53,17 @@ public class Bootstrap {
                         gabriel.getCpf() + pos,
                         gabriel.getMatricula() + pos);
                 Dependente d = new Dependente(cesar.getNome() + pos, cesar.getCpf() + pos);
-                Dependente d1 = new Dependente(cesar.getNome() + pos + pos, cesar.getCpf() + pos + pos);
+
+                f = funcionarioRepository.save(f);
+                d = dependenteRepository.save(d);
+
+                d.setFuncionario(f);
+
+                d = dependenteRepository.save(d);
 
                 f.getDependentes().add(d);
-                f.getDependentes().add(d1);
-                d.setFuncionario(f);
-                d1.setFuncionario(f);
 
-                funcionarioRepository.save(f);
-                dependenteRepository.save(d);
-                dependenteRepository.save(d1);
+                funcionarioRepository.update(f);
             }
             funcionarioRepository.commit();
             dependenteRepository.commit();
@@ -57,6 +71,7 @@ public class Bootstrap {
         } catch (Exception e) {
             funcionarioRepository.rollback();
             dependenteRepository.rollback();
+            System.err.println("ROLLBACK JOIN");
             e.printStackTrace();
         } finally {
             funcionarioRepository.close();
@@ -73,7 +88,7 @@ public class Bootstrap {
         try {
             funcionarioRepository.beginTransaction();
             dependenteRepository.beginTransaction();
-
+            
             alves.getDependentes().add(lima);
             lima.setFuncionario(alves);
 
@@ -94,6 +109,20 @@ public class Bootstrap {
             funcionarioRepository.close();
             dependenteRepository.close();
         }
+    }
+
+    public void showFuncionarios() {
+        System.out.println(
+                funcionarioRepository.all()
+        );
+        funcionarioRepository.close();
+    }
+
+    public void showDependentes() {
+        System.out.println(
+                dependenteRepository.all()
+        );
+        dependenteRepository.close();
     }
 
 }

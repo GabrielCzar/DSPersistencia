@@ -10,8 +10,8 @@ public class JPADao<T> implements IDao<T>{
 
     protected Class<T> persistenceClass;
 
-    public void save(T entity) {
-        getEM().merge(entity);
+    public T save(T entity) {
+        return getEM().merge(entity);
     }
 
     public T get(Object id) {
@@ -37,17 +37,15 @@ public class JPADao<T> implements IDao<T>{
     }
 
     public void beginTransaction() {
-        getEM().getTransaction().begin();
+        JpaUtil.beginTransaction();
     }
 
     public void commit() {
-        if (getEM().getTransaction().isActive())
-            getEM().getTransaction().commit();
+        JpaUtil.commit();
     }
 
     public void rollback() {
-        if (getEM().getTransaction().isActive())
-            getEM().getTransaction().rollback();
+        JpaUtil.rollback();
     }
 
     public void close() {

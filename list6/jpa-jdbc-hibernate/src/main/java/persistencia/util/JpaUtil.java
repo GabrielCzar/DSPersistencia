@@ -33,15 +33,18 @@ public class JpaUtil {
         }
     }
 
-    public void beginTransaction() {
-        getEntityManager().getTransaction().begin();
+    public static void beginTransaction() {
+        if (!getEntityManager().getTransaction().isActive())
+            getEntityManager().getTransaction().begin();
     }
 
-    public void commit() {
-        getEntityManager().getTransaction().commit();
+    public static void commit() {
+        if (getEntityManager().getTransaction().isActive())
+            getEntityManager().getTransaction().commit();
     }
 
-    public void rollback(){
-        getEntityManager().getTransaction().rollback();
+    public static void rollback(){
+        if (getEntityManager().getTransaction().isActive())
+            getEntityManager().getTransaction().rollback();
     }
 }

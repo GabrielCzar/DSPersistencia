@@ -2,7 +2,7 @@ package persistencia.repository;
 
 import persistencia.model.Dependente;
 import persistencia.repository.dao.IDao;
-import persistencia.util.ConnectionFactory;
+import persistencia.util.ConnectionPool;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +17,7 @@ public class JDBCDependenteDao implements IDao<Dependente> {
     private String query;
 
     public JDBCDependenteDao() {
-        this.conn = ConnectionFactory.getConnection();
+        this.conn = ConnectionPool.getConnection();
     }
 
     @Override
@@ -39,9 +39,10 @@ public class JDBCDependenteDao implements IDao<Dependente> {
     }
 
     @Override
-    public void save(Dependente entity) {
+    public Dependente save(Dependente entity) {
         query = "insert into dependentes (nome, cpf) values (?, ?)";
         saveOrUpdate(entity, query);
+        return entity;
     }
 
     private void saveOrUpdate(Dependente f, String query) {

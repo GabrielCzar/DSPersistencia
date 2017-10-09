@@ -2,7 +2,7 @@ package persistencia.repository;
 
 import persistencia.model.Funcionario;
 import persistencia.repository.dao.IDao;
-import persistencia.util.ConnectionFactory;
+import persistencia.util.ConnectionPool;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +17,7 @@ public class JDBCFuncionarioDao implements IDao<Funcionario> {
     private String query;
 
     public JDBCFuncionarioDao () {
-        this.conn = ConnectionFactory.getConnection();
+        this.conn = ConnectionPool.getConnection();
     }
 
     @Override
@@ -39,9 +39,10 @@ public class JDBCFuncionarioDao implements IDao<Funcionario> {
     }
 
     @Override
-    public void save(Funcionario entity) {
+    public Funcionario save(Funcionario entity) {
         query = "insert into funcionarios (nome, email, telefone, cpf, matricula) values (?, ?, ?, ?, ?)";
         saveOrUpdate(entity, query);
+        return entity;
     }
 
     private void saveOrUpdate(Funcionario f, String query) {

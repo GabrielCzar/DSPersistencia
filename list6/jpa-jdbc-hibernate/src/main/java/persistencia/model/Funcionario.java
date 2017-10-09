@@ -1,6 +1,7 @@
 package persistencia.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.CascadeType.ALL;
@@ -26,6 +27,7 @@ public class Funcionario {
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
+        this.dependentes = new ArrayList<>();
     }
 
     public Long getId() {

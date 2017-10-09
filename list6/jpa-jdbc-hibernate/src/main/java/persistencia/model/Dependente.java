@@ -53,4 +53,9 @@ public class Dependente {
     public void setFuncionario(Funcionario funcionario) {
         this.funcionario = funcionario;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%d, %s, %s", id, nome, cpf);
+    }
 }
