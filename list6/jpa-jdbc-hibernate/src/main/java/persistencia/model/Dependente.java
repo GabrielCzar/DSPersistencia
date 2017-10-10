@@ -5,6 +5,9 @@ import javax.persistence.*;
 @Entity
 @Table(name = "dependentes",
     uniqueConstraints = @UniqueConstraint(columnNames = {"cpf"}))
+@NamedQueries({
+        @NamedQuery(name = "Dependente.findAll", query = "from Dependente where nome like :pattern")
+})
 public class Dependente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,4 +61,9 @@ public class Dependente {
     public String toString() {
         return String.format("%d, %s, %s", id, nome, cpf);
     }
+
+    public String showDependenteFuncionario() {
+        return String.format("%s, %s", nome, funcionario != null ? funcionario.getNome() : "");
+    }
+
 }

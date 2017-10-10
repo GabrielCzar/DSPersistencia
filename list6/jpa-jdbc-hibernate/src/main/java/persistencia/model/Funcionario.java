@@ -11,6 +11,9 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Entity
 @Table(name = "funcionarios",
         uniqueConstraints = @UniqueConstraint(columnNames = {"cpf", "matricula"}))
+@NamedQueries({
+        @NamedQuery(name = "Funcionario.findAll", query = "from Funcionario")
+})
 public class Funcionario {
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -89,6 +92,6 @@ public class Funcionario {
 
     @Override
     public String toString() {
-        return String.format("%d, %s, %s, %s, %s", id, nome, email, cpf, matricula);
+        return String.format("%d, %s, %s, %s, %s, %s\n", id, nome, email, cpf, matricula, dependentes);
     }
 }

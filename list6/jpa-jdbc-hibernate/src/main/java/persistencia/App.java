@@ -1,11 +1,12 @@
 package persistencia;
 
-import static java.lang.System.exit;
-
 public class App {
     public static void main(String[] args) {
         // Execute actions
 
-        exit(0);
+        // JPQLNativeCriteriaNamed para consultas da questao 5
+
+        // QueryJPADao para consultas da questoes 4 e 7
+
     }
 }
