@@ -29,6 +29,7 @@ public class JPQLNativeCriteriaNamed {
         CriteriaBuilder cb = dependenteRepository.getEM().getCriteriaBuilder();
         CriteriaQuery<Dependente> cq = cb.createQuery(Dependente.class);
         Root<Dependente> from = cq.from(Dependente.class);
+        from.fetch("funcionario");
         TypedQuery<Dependente> typedQuery = dependenteRepository.getEM().createQuery(
                 cq.select(from).where(cb.like(from.get("nome"),initialLetter + '%')));
 
@@ -40,7 +41,7 @@ public class JPQLNativeCriteriaNamed {
 
     public void allNomesDependentesJQPL (String initialLetter) {
         List<Dependente> dependentes =  dependenteRepository.getEM()
-                .createQuery("from Dependente where nome like :pattern", Dependente.class)
+                .createQuery("from Dependente d join fetch d.funcionario where d.nome like :pattern", Dependente.class)
                 .setParameter("pattern", initialLetter + '%')
                 .getResultList();
 
