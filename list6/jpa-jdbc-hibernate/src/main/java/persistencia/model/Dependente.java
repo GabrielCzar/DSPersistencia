@@ -6,7 +6,8 @@ import javax.persistence.*;
 @Table(name = "dependentes",
     uniqueConstraints = @UniqueConstraint(columnNames = {"cpf"}))
 @NamedQueries({
-        @NamedQuery(name = "Dependente.findAll", query = "from Dependente where nome like :pattern")
+        // Obter todos os dependentes e seus funcionarios
+        @NamedQuery(name = "Dependente.findAll", query = "from Dependente d join fetch d.funcionario where d.nome like :pattern")
 })
 public class Dependente {
     @Id

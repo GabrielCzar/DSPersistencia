@@ -20,7 +20,7 @@ public class Funcionario {
     private Long id;
     private String nome, email, telefone, cpf, matricula;
 
-    @OneToMany(mappedBy = "funcionario", cascade = ALL, fetch = LAZY)
+    @OneToMany(mappedBy = "funcionario", cascade = ALL)
     private List<Dependente> dependentes;
 
     public Funcionario() { }

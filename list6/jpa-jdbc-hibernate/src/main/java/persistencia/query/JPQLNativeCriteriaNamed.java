@@ -1,5 +1,6 @@
 package persistencia.query;
 
+import org.hibernate.Criteria;
 import persistencia.model.Dependente;
 import persistencia.model.Funcionario;
 import persistencia.repository.DependenteRepository;
@@ -31,12 +32,13 @@ public class JPQLNativeCriteriaNamed {
         Root<Dependente> from = cq.from(Dependente.class);
         TypedQuery<Dependente> typedQuery = dependenteRepository.getEM().createQuery(
                 cq.select(from).where(cb.like(from.get("nome"),initialLetter + '%')));
-
         List<Dependente> ds = typedQuery.getResultList();
+
         for (Dependente d : ds) {
             System.out.println(d.showDependenteFuncionario());
         }
     }
+
 
     public void allNomesDependentesJQPL (String initialLetter) {
         List<Dependente> dependentes =  dependenteRepository.getEM()
