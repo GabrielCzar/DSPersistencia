@@ -14,9 +14,7 @@ public class App {
         MongoCollection<Document> collectionEditoras = db.getCollection("Editoras");
         MongoCollection<Document> collectionLivros = db.getCollection("Livros");
 
-        
-        Iterable<Document> docs = Operations.getEditoraQtdTotalEValorTotalApartir2010(collectionLivros);
-        docs.forEach(v -> System.out.println(v.toJson()));
+        Operations.getEditoraQtdTotalEValorTotalApartir2010(collectionLivros).forEach(v -> System.out.println(v.toJson()));
 
     }
 }

@@ -1,6 +1,10 @@
 package dspersist.util;
 
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Accumulators;
+import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Projections;
 import dspersist.model.Editora;
 import dspersist.model.Livro;
 import org.bson.Document;
@@ -25,22 +29,17 @@ public class Operations {
     // Obter o nome da editora, a quantidade total de livros por editora e o valor total
     public static Iterable<Document> getEditoraQuantidadeEValorTotal (MongoCollection<Document> collection) {
         return collection.aggregate(Arrays.asList(
-                new Document("$match",
-                        new Document("ano_publicacao",
-                                new Document("$gte", 2010))),
-                new Document("$group",
-                        new Document("_id", "$editora")
-                                .append("totalPrice",
-                                        new Document("$sum",
-                                                new Document("$multiply", Arrays.asList(
-                                                        "$qtd_estoque", "$valor")))))));
+                Aggregates.match(Filters.gte("ano_publicacao", 2010)),
+                Aggregates.group("$editora",
+                        Accumulators.sum("totalPrice", new Document("$multiply",
+                                Arrays.asList("$qtd_estoque", "$valor"))))));
     }
 
     // Obter o nome da editora,
     // a quantidade total de livros por editora
     // e o valor total (qtd_estoque * valor) dos livros para cada editora.
     // Somente considerar os livros publicados a partir de 2010.
-    public static Iterable<Document> getEditoraQtdTotalEValorTotalApartir2010 (MongoCollection<Document> collection) {
+    public static Iterable<Document> getEditoraQtdTotalEValorTotalApartir2010OldVersion (MongoCollection<Document> collection) {
         return collection.aggregate(Arrays.asList(
                 new Document("$match",
                         new Document("ano_publicacao",
@@ -63,6 +62,20 @@ public class Operations {
                             .append("totalLivros", true)
                             .append("totalValor", true))
         ));
+    }
+
+    public static Iterable<Document> getEditoraQtdTotalEValorTotalApartir2010 (MongoCollection<Document> collection) {
+        return collection.aggregate(Arrays.asList(
+                Aggregates.match(Filters.gte("ano_publicacao", 2010)),
+                Aggregates.lookup("Editoras", "id_editora", "id", "editora"),
+                Aggregates.group("$editora.nome",
+                        Accumulators.sum("qtdLivros", "$qtd_estoque"),
+                        Accumulators.sum("valorTotal",
+                                new Document("$multiply", Arrays.asList("$qtd_estoque", "$valor")))),
+                Aggregates.project(Projections.fields(Projections.excludeId(),
+                        Projections.computed("editora", "$_id"),
+                        Projections.include("qtdLivros", "valorTotal"))
+                )));
     }
 
     public static Iterable<Document> list (MongoCollection<Document> collection) {
